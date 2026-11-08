@@ -1,4 +1,4 @@
-
+```yaml
 name: builder
 
 on:
@@ -7,9 +7,12 @@ on:
   schedule:
     - cron: '49 23 * * *'
 
+permissions:
+  contents: write
+
 jobs:
   scheduled:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-22.04
 
     steps:
       - name: Install dependencies
@@ -17,14 +20,20 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y \
             build-essential \
+            ccache \
+            ecj \
+            fastjar \
             file \
+            g++ \
             gawk \
             gettext \
             git \
             libelf-dev \
-            libncurses-dev \
+            libncurses5-dev \
+            libncursesw5-dev \
             libssl-dev \
             python3 \
+            python3-distutils \
             python3-setuptools \
             python-is-python3 \
             rsync \
@@ -35,6 +44,11 @@ jobs:
             wget \
             xsltproc \
             zlib1g-dev
+
+      - name: Check Python distutils
+        run: |
+          python3 --version
+          python3 -c "from distutils import util; print('distutils OK')"
 
       - name: Download ImageBuilder
         run: |
@@ -50,17 +64,13 @@ jobs:
 
           make image \
             PROFILE="tplink_tl-mr6400-v4" \
-            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager luci-proto-modemmanager -nodogsplash -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
+            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
 
-      - name: List generated images
-        run: |
-          find openwrt-imagebuilder-21.02.1-ramips-mt76x8.Linux-x86_64/bin/targets/ramips/mt76x8/ -type f -name '*.bin' -exec ls -lh {} \;
-
-      - name: Generate tag name
+      - name: Generate release tag
         run: |
           echo "TAG_NAME=v$(date '+%Y%m%d')" >> "$GITHUB_ENV"
 
-      - name: Release
+      - name: Publish release
         uses: svenstaro/upload-release-action@v2
         with:
           body: "OpenWrt 21.02.1 for TP-Link TL-MR6400 V3 with ModemManager and LuCI."
@@ -68,3 +78,4 @@ jobs:
           file_glob: true
           tag: ${{ env.TAG_NAME }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
+```
