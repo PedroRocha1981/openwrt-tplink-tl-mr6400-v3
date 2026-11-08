@@ -63,8 +63,7 @@ jobs:
 
           make image \
             PROFILE="tplink_tl-mr6400-v4" \
-            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
-
+            PACKAGES="uhttpd luci luci-theme-bootstrap kmod-usb-net-qmi-wwan uqmi luci-proto-qmi -modemmanager -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
       - name: Generate release tag
         run: |
           echo "TAG_NAME=v$(date '+%Y%m%d')" >> "$GITHUB_ENV"
