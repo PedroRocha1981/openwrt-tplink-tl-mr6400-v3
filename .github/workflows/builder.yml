@@ -63,7 +63,7 @@ jobs:
 
           make image \
             PROFILE="tplink_tl-mr6400-v4" \
-            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager luci-proto-modemmanager kmod-usb-net-qmi-wwan kmod-usb-serial-option kmod-usb-serial-wwan -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
+            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager luci-proto-modemmanager kmod-usb-net-qmi-wwan ddns-scripts ddns-scripts-noip ca-bundle wget -kmod-usb-serial-option -kmod-usb-serial-wwan -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
       
       - name: Generate release tag
         run: |
@@ -72,7 +72,7 @@ jobs:
       - name: Publish release
         uses: svenstaro/upload-release-action@v2
         with:
-          body: "OpenWrt 21.02.1 for TP-Link TL-MR6400 V3 with ModemManager and LuCI."
+          body: "OpenWrt 21.02.1 for TP-Link TL-MR6400 V3 with ModemManager, LuCI, and No-IP DDNS built-in (Space Optimized)."
           file: openwrt-imagebuilder-21.02.1-ramips-mt76x8.Linux-x86_64/bin/targets/ramips/mt76x8/*.bin
           file_glob: true
           tag: ${{ env.TAG_NAME }}
