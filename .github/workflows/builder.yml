@@ -77,4 +77,3 @@ jobs:
           file_glob: true
           tag: ${{ env.TAG_NAME }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-```
