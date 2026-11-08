@@ -63,7 +63,7 @@ jobs:
 
           make image \
             PROFILE="tplink_tl-mr6400-v4" \
-            PACKAGES="uhttpd luci luci-theme-bootstrap modemmanager luci-proto-modemmanager kmod-usb-net-qmi-wwan ddns-scripts ddns-scripts-noip ca-bundle wget -kmod-usb-serial-option -kmod-usb-serial-wwan -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"
+            PACKAGES="uhttpd luci luci-theme-bootstrap luci-app-ddns modemmanager luci-proto-modemmanager kmod-usb-net-qmi-wwan ddns-scripts ddns-scripts-noip ca-bundle wget-ssl -kmod-usb-serial-option -kmod-usb-serial-wwan -nodogsplash -ppp -ppp-mod-pppoe -ip6tables -odhcp6c -kmod-ipv6 -kmod-ip6tables -odhcpd-ipv6only"      
       
       - name: Generate release tag
         run: |
